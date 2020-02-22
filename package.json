@@ -1,0 +1,44 @@
+{
+  "name": "practical-microservices",
+  "version": "1.0.0",
+  "description": "Starting point for the practical-microservices workshop",
+  "main": "script/start-server.js",
+  "scripts": {
+    "start": "node script/start-server.js",
+    "test": "cross-env NODE_ENV=test tape 'test/**/*.test.js'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/SuchSoftware/practical-microservices.git"
+  },
+  "keywords": [
+    "microservices"
+  ],
+  "author": "Ethan Garofolo <ethan@suchsoftware.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SuchSoftware/practical-microservices/issues"
+  },
+  "homepage": "https://github.com/SuchSoftware/practical-microservices#readme",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "camelcase-keys": "^6.1.1",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "knex": "^0.20.9",
+    "pg": "^7.14.0",
+    "prettier-standard": "^16.1.0",
+    "pug": "^2.0.4",
+    "snakecase-keys": "^3.1.0",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "blue-tape": "^1.0.0",
+    "cross-env": "^6.0.3",
+    "prettier": "^1.19.1",
+    "standard": "^14.3.1",
+    "supertest": "^4.0.2",
+    "tape": "^4.12.1"
+  }
+}
