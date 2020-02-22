@@ -41,6 +41,33 @@ Read back: {
 }
 ```
 
+## Other Useful Software
+
+* A database viewer, such as TablePlus (https://tableplus.com/).  It absolutely does not have to be this particular one, but you will benefit greatly from having something that will let you view the contents of the databases started in the `docker-compose.yml` file.
+
+## Verify You Can Access The Databases
+
+There are 2 databases in `docker-compose.yml`.  You can access them with the following connection params:
+
+```
+// Database 1 (SPOILER ALERT: we'll end up calling this the View Data database)
+User: postgres
+Host/Socket: 127.0.0.1
+Port: 5432
+Database: practical_microservices
+Password: <It's blank.  As in literally blank.  Don't put all of this in there.>
+
+// Database 2 (the Message Store database)
+User: postgres
+Host/Socket: 127.0.0.1
+Port: 5433
+Database: practical_microservices
+Password: <It's blank.  As in literally blank.  Don't put all of this in there.>
+```
+
+Obviously, if you don't use the provided Docker setup, then this connection info might not match what you have.  It's up to you, but for the purposes of the workshop, we'll assume you are using the provided Docker setup.
+
+
 ## Slides
 
 [There are slides for this workshop](https://docs.google.com/presentation/d/1xhpC7SqrIUBo1ar4ykN7a0-snipIVtnpcpHYIauafGU/edit?usp=sharing).
@@ -49,6 +76,3 @@ Read back: {
 
 The script we'll follow is in the `instructor-guide.md` file in this repo.
 
-## Other Useful Software
-
-* A database view, such as TablePlus (https://tableplus.com/).  It absolutely does not have to be this particular one, but you will benefit greatly from having something that will let you view the contents of the databases started in the `docker-compose.yml` file.
