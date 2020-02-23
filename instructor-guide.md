@@ -306,11 +306,45 @@ function createCommandHandlers ({ messageStore }) {
 
 `git checkout step-10`
 
-* Exercise `exercises/07-handle-started-event.js`
+* Exercise `exercises/08-handle-started-event.js`
 * Respond to our own event
+* It's in a new set of handlers
 * Make sure to set the `originStreamName`
-* Use the video’s id for the transcode stream so that idempotence works
 * We expect to see more than 1 command.  Why?  Why does it not matter?
+
+```
+function createEventHandlers ({ messageStore }) {
+  return {
+    async Started (started) {
+      const videoId = started.data.videoId
+      const streamName = `catalog-${videoId}`
+      const video = await messageStore.fetch(streamName, projection)
+
+      if (video.isTranscoded) {
+        console.log(`(${started.id}) Video already transcoded. Skipping`)
+
+        return true
+      }
+
+      const transcode = {
+        id: uuid(),
+        type: 'Transcode',
+        metadata: {
+          traceId: started.metadata.traceId,
+          originStreamName: streamName
+        },
+        data: {
+          videoId,
+          uri: started.data.uri
+        }
+      }
+      const commandStream = `transcode:command-${videoId}`
+
+      return messageStore.write(commandStream, transcode)
+    }
+  }
+}
+```
 
 ## Step 11: Handling `transcode`'s Transcoded Event
 
