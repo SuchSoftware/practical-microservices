@@ -197,9 +197,14 @@ function build ({ messageStore }) {
 
 `git checkout step-08`
 
-* Exercise `exercises/05-handle-transcode-command.js`
+* Exercise `exercises/06-handle-transcode-command.js`
 * We’re setting aside the transcribe component now (take them back to the event model)
 * Group codes this whole component
+* Fill out the projection in `src/transcode-component/projection.js`
+
+```
+```
+
 * Given a projection with an `$init` property and a component file with the handler somewhat filled out.  Walk them through what they have to work with.
 
 ## Step 9: Starting a Long-Running Process

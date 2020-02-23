@@ -6,6 +6,7 @@
 const createHomeApplication = require('./home-application')
 const createPostgresClient = require('./postgres-client')
 const createMessageStore = require('./message-store')
+const createTranscodeComponent = require('./transcode-component')
 const createTranscribeComponent = require('./transcribe-component')
 
 // Even the configuration has a dependency, namely the run-time environment.
@@ -23,18 +24,20 @@ function createConfig ({ env }) {
   const homeApplication = createHomeApplication()
 
   // Components
+  const transcodeComponent = createTranscodeComponent({ messageStore })
   const transcribeComponent = createTranscribeComponent({ messageStore })
 
   // Aggregators
   // When we get aggregators, they'll go here
 
-  const consumers = [transcribeComponent]
+  const consumers = [transcodeComponent, transcribeComponent]
 
   return {
     consumers,
     env,
     homeApplication,
     messageStore,
+    transcodeComponent,
     transcribeComponent
   }
 }
