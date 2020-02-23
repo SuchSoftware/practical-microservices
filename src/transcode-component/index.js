@@ -14,27 +14,16 @@ function transcodeFile (source) {
 function createHandlers ({ messageStore }) {
   return {
     async Transcode (transcode) {
-      // TODO 1. Where do you get the id?
-      const transcodeId = ''
-      // TODO 2. What is the stream name where the events for this transcoding
-      // live?
-      const streamName = ''
-      // TODO 3. Which message store function do you use to, um, "fetch" an
-      // entity from the Message Store?
-      // TODO 4. Don't forget to fill out the projection in ./projection.js
-      const transcoding = await messageStore.WHAT_FUNCTION(
-        streamName,
-        projection
-      )
+      const transcodeId = transcode.data.transcodeId
+      const streamName = `transcode-${transcodeId}`
+      const transcoding = await messageStore.fetch(streamName, projection)
 
-      // TODO 5. Make it idempotent
-      if (false) {
+      if (transcoding.isTranscoded) {
         console.log(`(${transcodeId}): Already transcoded. Skipping.`)
 
         return true
       }
 
-      // 6. Do the actual work.  This one is done for you.
       const transcodedUri = transcodeFile(transcode.data.uri)
 
       const transcoded = {
@@ -45,17 +34,13 @@ function createHandlers ({ messageStore }) {
           originStreamName: transcode.metadata.originStreamName
         },
         data: {
-          videoId: transcode.data.videoId,
+          transcodeId,
           uri: transcode.data.uri,
-          transcodedUri,
-          processedTime: new Date().toISOString()
+          transcodedUri
         }
       }
 
-      // TODO: 7. Instead of just returning true, write `transcoded` to the
-      // Message Store, returning the resulting Promise.  Use the
-      // `streamName` you constructed above.
-      return true
+      return messageStore.write(streamName, transcoded)
     }
   }
 }

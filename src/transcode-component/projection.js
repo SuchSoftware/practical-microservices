@@ -4,8 +4,14 @@ module.exports = {
     uri: null,
     transcodedUri: null,
     isTranscoded: false
-  })
+  }),
 
-  // TODO: Need to add handlers for any event types that affect this
-  // projection.  In our present case, that's just the "Transcoded" event.
+  Transcoded (transcoding, transcoded) {
+    transcoding.id = transcoded.data.transcodeId
+    transcoding.uri = transcoded.data.uri
+    transcoding.transcodedUri = transcoded.data.transcodedUri
+    transcoding.isTranscoded = true
+
+    return transcoding
+  }
 }

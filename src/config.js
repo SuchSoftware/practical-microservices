@@ -3,6 +3,7 @@
 // the breath of life into the otherwise hollow shell of the rest of the
 // system.
 
+const createCatalogComponent = require('./catalog-component')
 const createHomeApplication = require('./home-application')
 const createPostgresClient = require('./postgres-client')
 const createMessageStore = require('./message-store')
@@ -24,15 +25,17 @@ function createConfig ({ env }) {
   const homeApplication = createHomeApplication()
 
   // Components
+  const catalogComponent = createCatalogComponent({ messageStore })
   const transcodeComponent = createTranscodeComponent({ messageStore })
   const transcribeComponent = createTranscribeComponent({ messageStore })
 
   // Aggregators
   // When we get aggregators, they'll go here
 
-  const consumers = [transcodeComponent, transcribeComponent]
+  const consumers = [catalogComponent, transcodeComponent, transcribeComponent]
 
   return {
+    catalogComponent,
     consumers,
     env,
     homeApplication,

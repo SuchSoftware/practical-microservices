@@ -268,7 +268,39 @@ function createHandlers ({ messageStore }) {
 * The catalog component needs to get the other 2 to do work.  How does it do it?
 * We want to advance the process based off of our own events
 * The projection is already filled out
-* Get a Catalog command transformed into a Started event
+* Get a Catalog command transformed into a Started event in `src/catalog-component/index.js`
+
+```
+function createCommandHandlers ({ messageStore }) {
+  return {
+    async Catalog (catalog) {
+      const videoId = catalog.data.videoId
+      const videoStreamName = `catalog-${videoId}`
+      const video = await messageStore.fetch(videoStreamName, projection)
+
+      if (video.isStarted) {
+        console.log(`(${catalog.id}) Video already started. Skipping`)
+
+        return true
+      }
+
+      const started = {
+        id: uuid(),
+        type: 'Started',
+        metadata: {
+          traceId: catalog.metadata.traceId
+        },
+        data: {
+          videoId: catalog.data.videoId,
+          uri: catalog.data.uri
+        }
+      }
+
+      return messageStore.write(videoStreamName, started)
+    }
+  }
+}
+```
 
 ## Step 10: Handling Started and Telling `transcode-component` to Transcode Videos
 
