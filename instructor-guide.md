@@ -157,18 +157,54 @@ if (transcription.isTranscribed) {
 
 * Re-run `exercises/03-double-handle-transcribe-command.js`, see how only 1 event gets written.
 
-## Step 7: Handle Transcode Command
+## Step 7: Subscribing to the Message Store
 
 `git checkout step-07`
+
+* Clean database first
+* Exercise `exercises/05-write-transcribe-command.js`
+* Run it, see the command
+* Write subscription code
+
+```
+function build ({ messageStore }) {
+  const handlers = createHandlers({ messageStore })
+
+  const commandSubscription = messageStore.createSubscription({
+    streamName: 'transcribe:command',
+    handlers,
+    subscriberId: 'transcribeCommandConsumer'
+  })
+  
+  // ...
+  
+  function start () {
+    console.log('Starting transcribe component')
+
+    commandSubscription.start()
+  }
+  
+  // ...
+}
+
+```
+
+* Start the server
+* Look in Message Store and see the transcribed event
+
+
+## Step 8: Handle Transcode Command
+
+`git checkout step-08`
 
 * Exercise `exercises/05-handle-transcode-command.js`
 * We’re setting aside the transcribe component now (take them back to the event model)
 * Group codes this whole component
 * Given a projection with an `$init` property and a component file with the handler somewhat filled out.  Walk them through what they have to work with.
 
-## Step 8: Starting a Long-Running Process
+## Step 9: Starting a Long-Running Process
 
-`git checkout step-08`
+`git checkout step-09`
 
 * Exercise `exercises/06-handle-catalog-command.js`
 * The catalog component needs to get the other 2 to do work.  How does it do it?
@@ -176,9 +212,9 @@ if (transcription.isTranscribed) {
 * The projection is already filled out
 * Get a Catalog command transformed into a Started event
 
-## Step 9: Handling Started and Telling `transcode-component` to Transcode Videos
+## Step 10: Handling Started and Telling `transcode-component` to Transcode Videos
 
-`git checkout step-09`
+`git checkout step-10`
 
 * Exercise `exercises/07-handle-started-event.js`
 * Respond to our own event
@@ -186,18 +222,18 @@ if (transcription.isTranscribed) {
 * Use the video’s id for the transcode stream so that idempotence works
 * We expect to see more than 1 command.  Why?  Why does it not matter?
 
-## Step 10: Handling `transcode`'s Transcoded Event
+## Step 11: Handling `transcode`'s Transcoded Event
 
-`git checkout step-10`
+`git checkout step-11`
 
 * Exercise `exercises/08-handle-transcoded-event-from-us.js`
 * The catalog component will drive the process off of its own events.  It shouldn’t rely on other streams for its own state
 * Idempotently copy the Transcoded event to the catalog stream
 * Talk about how we get the `catalog` stream from the `metadata` on an event in a `transcode` stream.
 
-## Step 11: Handling Our Own Transcoded Event
+## Step 12: Handling Our Own Transcoded Event
 
-`git checkout step-11`
+`git checkout step-12`
 
 * Exercise `exercises/09-handle-transcoded-event-in-catalog-stream.js`
 * The handler function for this has not been scaffolded
@@ -205,9 +241,9 @@ if (transcription.isTranscribed) {
     * What is a handler?
 
 
-## Step 12: Doing the Same Thing For Transcription
+## Step 13: Doing the Same Thing For Transcription
 
-`git checkout step-12`
+`git checkout step-13`
 
 * No exercise
 * We're not doing anything new, so we're not doing this as an exercise
@@ -218,9 +254,9 @@ if (transcription.isTranscribed) {
 * Then we also handle `catalog`'s `Transcribed` event to write a `Cataloged` event
 
 
-## Step 13: Subscribing to the Message Store
+## Step 14: Subscribing to the Message Store
 
-`git checkout step-13`
+`git checkout step-14`
 
 * No exercise
 * We're not coding this as a group because how to write the subscription is particular to the code in this workshop.  It isn't going to teach you more about microservices.
@@ -228,9 +264,9 @@ if (transcription.isTranscribed) {
 * The streamName is the category we’re subscribing to.  To handle commands, we subscribe to the :command stream
 
 
-## Step 14: Touring the application changes
+## Step 15: Touring the application changes
 
-`git checkout step-014`
+`git checkout step-015`
 
 * Keeping it simple.  Anyone can upload a video.  Can’t foresee any problem with that!
 * Videos are named after their id.  Can’t foresee any problems with that!
@@ -240,9 +276,9 @@ That’s why the view video route has the interstitial
 Notice that the reads are now just like any other HTTP handler you’ve work with before.  What we’ve done is decouple our write model from our read model
 
 
-## Step 15: Aggregating the results into View Data
+## Step 16: Aggregating the results into View Data
 
-`git checkout step-015`
+`git checkout step-016`
 
 * It’s just a component, but we call them out as aggregators to make the distinction
 * The query needs to be idempotent.  Upserting gives us that.
