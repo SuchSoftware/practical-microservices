@@ -22,4 +22,5 @@ config.transcribeComponent.handlers
   // Notice that we call the handler a second time
   .then(() => config.transcribeComponent.handlers.Transcribe(transcribe))
   .then(() => console.log('Video transcribed.  Inspect message store.'))
+  .catch(err => console.log(err))
   .finally(config.messageStore.stop)

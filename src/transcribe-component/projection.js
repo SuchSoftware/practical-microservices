@@ -4,8 +4,14 @@ module.exports = {
     isTranscribed: false,
     uri: null,
     transcription: null
-  })
+  }),
 
-  // TODO: Add handlers for any event types that affect this projection.
-  // In our present case, that's just the "Moved" event
+  Transcribed (transcribeJob, transcribed) {
+    transcribeJob.id = transcribed.data.transcribeId
+    transcribeJob.isTranscribed = true
+    transcribeJob.uri = transcribed.data.uri
+    transcribeJob.transcription = transcribed.data.transcription
+
+    return transcribeJob
+  }
 }

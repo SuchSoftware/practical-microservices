@@ -1,5 +1,7 @@
 const uuid = require('uuid/v4')
 
+const projection = require('./projection')
+
 // Function for faking the transcription
 function transcribeVideo (uri) {
   return `
@@ -17,7 +19,19 @@ function createHandlers ({ messageStore }) {
   return {
     async Transcribe (transcribe) {
       const { transcribeId, uri } = transcribe.data
-      const transcription = transcribeVideo(uri)
+      const streamName = `transcription-${transcribeId}`
+      const transcription = await messageStore.fetch(streamName, projection)
+
+      // TODO: Check to see if we've already performed the transcription.
+      // `transcription` has an `isTranscoded` property.  Change this check
+      // from `false` to use the projected transcription.
+      if (false) {
+        console.log(`[${transcribe.id}]: Already transcribed. Skipping.`)
+
+        return true
+      }
+
+      const transcriptionText = transcribeVideo(uri)
 
       const transcribed = {
         id: uuid(),
@@ -29,10 +43,9 @@ function createHandlers ({ messageStore }) {
         data: {
           transcribeId,
           uri,
-          transcription
+          transcription: transcriptionText
         }
       }
-      const streamName = `transcribe-${transcribeId}`
 
       return messageStore.write(streamName, transcribed)
     }

@@ -144,10 +144,17 @@ module.exports = {
 `git checkout step-06`
 
 * Notice in `src/transcribe-component/index.js` that we’re requiring the projection
-* Show `src/transcribe-component/projection.js` - We need to flesh out this file. Does the projection already exist somewhere?
 * Show `project` function in `src/message-store/read.js`
-* Show it being used in the handler.  Note that the handler is now async.
-* Move the projection over
+* Show where in the handler it needs to be used and make the change to use it.
+
+```
+if (transcription.isTranscribed) {
+  console.log(`[${transcribe.id}]: Already transcribed. Skipping.`)
+
+  return true
+}
+```
+
 * Re-run `exercises/03-double-handle-transcribe-command.js`, see how only 1 event gets written.
 
 ## Step 7: Handle Transcode Command
