@@ -398,6 +398,41 @@ function createTranscodeEventHandlers ({ messageStore }) {
     * Where will we put the handler?
     * What is a handler?
 
+```
+function createEventHandlers ({ messageStore }) {
+  return {
+    // ...
+
+    async Transcoded (transcoded) {
+      const streamName = transcoded.streamName
+      const video = await messageStore.fetch(streamName, projection)
+
+      if (video.isTranscribed) {
+        console.log(`(${transcoded.id}) Video already transcribed. Skipping`)
+
+        return true
+      }
+
+      // ourselves
+      const transcribe = {
+        id: uuid(),
+        type: 'Transcribe',
+        metadata: {
+          traceId: transcoded.metadata.traceId,
+          originStreamName: streamName
+        },
+        data: {
+          videoId: video.id,
+          uri: video.uri
+        }
+      }
+
+      return messageStore.write(`transcribe:command-${video.id}`, transcribe)
+    }
+  }
+}
+```
+
 
 ## Step 13: Doing the Same Thing For Transcription
 

@@ -68,6 +68,11 @@ function createEventHandlers ({ messageStore }) {
 
       return messageStore.write(commandStream, transcode)
     }
+
+    // TODO: Add a handler here for `Transcoded` events that are in `catalog`
+    // streams.  Reminder that a handler is a property on this object whose
+    // key matches a message type and whose value is a function that receives
+    // a message of that type to handle.  The function should be `async`.
   }
 }
 
