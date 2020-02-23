@@ -1,21 +1,10 @@
 const uuid = require('uuid/v4')
 
-const TranscribedControls = require('../src/transcribe-component/controls/events/transcribed')
 const { project } = require('../src/message-store/read')
+const TranscribedControls = require('../src/transcribe-component/controls/events/transcribed')
+const projection = require('../src/transcribe-component/projection')
 
 const events = [TranscribedControls.example()]
-
-const projection = {
-  $init: () => ({
-    id: null,
-    isTranscribed: false,
-    uri: null,
-    transcription: null
-  })
-
-  // TODO: Add handlers for any event types that affect this projection.
-  // In our present case, that's just the "Moved" event
-}
 
 const transcription = project(events, projection)
 
