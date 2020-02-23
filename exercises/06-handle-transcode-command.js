@@ -5,6 +5,10 @@ const TranscodeControls = require('../src/transcode-component/controls/commands/
 
 const transcode = TranscodeControls.example()
 
+// TODOs for this exercise:
+// - The TODOs in src/transcode-component/index.js - Handle this command
+// - The TODO in src/transcode-component/projection.js - Write the projection
+
 config.transcodeComponent.handlers
   .Transcode(transcode)
   // Notice the double handling again

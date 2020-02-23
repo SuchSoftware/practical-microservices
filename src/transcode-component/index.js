@@ -29,7 +29,7 @@ function createHandlers ({ messageStore }) {
 
       // TODO 5. Make it idempotent
       if (false) {
-        console.log(`(${videoId}): Already transcoded. Skipping.`)
+        console.log(`(${transcodeId}): Already transcoded. Skipping.`)
 
         return true
       }
@@ -41,7 +41,8 @@ function createHandlers ({ messageStore }) {
         id: uuid(),
         type: 'Transcoded',
         metadata: {
-          traceId: transcode.metadata.traceId
+          traceId: transcode.metadata.traceId,
+          originStreamName: transcode.metadata.originStreamName
         },
         data: {
           videoId: transcode.data.videoId,
@@ -51,8 +52,9 @@ function createHandlers ({ messageStore }) {
         }
       }
 
-      // Instead of just returning true, write `transcoded` to the
-      // message store, rturning the resulting Promise.
+      // TODO: 7. Instead of just returning true, write `transcoded` to the
+      // Message Store, returning the resulting Promise.  Use the
+      // `streamName` you constructed above.
       return true
     }
   }
