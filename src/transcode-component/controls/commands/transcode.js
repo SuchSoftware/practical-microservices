@@ -12,16 +12,12 @@ module.exports = {
       },
       data: {
         transcodeId: IdControls.example(),
-        source: this.source()
+        uri: this.uri()
       }
     }
   },
 
-  source () {
+  uri () {
     return 'https://www.youtube.com/watch?v=GI_P3UtZXAA'
-  },
-
-  destination () {
-    return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
   }
 }

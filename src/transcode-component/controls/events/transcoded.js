@@ -4,16 +4,25 @@ const IdControls = require('../id')
 
 module.exports = {
   example () {
-    const videoId = IdControls.example()
+    const transcodeId = IdControls.example()
 
     return {
       id: IdControls.example(),
       type: 'Transcoded',
       metadata: {},
       data: {
-        videoId,
-        uri: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+        transcodeId,
+        uri: this.uri(),
+        transcodedUri: this.transcodedUri()
       }
     }
+  },
+
+  uri () {
+    return 'https://www.youtube.com/watch?v=GI_P3UtZXAA'
+  },
+
+  transcodedUri () {
+    return 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
   }
 }
