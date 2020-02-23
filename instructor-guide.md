@@ -23,10 +23,11 @@ Go through the slides up until "Let's Build It!"
 
 1. Open `exercises/01-write-a-message.js`
 2. If you try to run it, it will go boom!  So run it and watch the boom.
-3. Uncomment line 22
-4. Talk about the fields in the message
-5. SLIDE - anatomy of a message
-6. Ask class to do part 2 (Did anyone pick a fun message type?)
+3. Uncomment the `// id: uuid(),` line.
+4. Run it again.
+5. Talk about the fields in the message
+6. Check out the result in the database viewer.  Point out the connection information is in the README 
+7. SLIDE - anatomy of a message
 
 ## Step 2: Exploring the Project Layout
 
