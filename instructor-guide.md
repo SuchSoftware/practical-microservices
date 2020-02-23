@@ -79,7 +79,7 @@ function build ({ messageStore }) {
 ```
 function createHandlers ({ messageStore }) {
   return {
-    Transcribe (transcribe) {
+    async Transcribe (transcribe) {
       const { transcribeId, uri } = transcribe.data
       const transcription = transcribeVideo(uri)
 
@@ -96,7 +96,7 @@ function createHandlers ({ messageStore }) {
           transcription
         }
       }
-      const streamName = `transcribe-${transcribeId}`
+      const streamName = `transcribe-${videoId}`
 
       return messageStore.write(streamName, transcribed)
     }
@@ -108,6 +108,7 @@ function createHandlers ({ messageStore }) {
 
 `git checkout step-04`
 
+* Get clean database before running the exercise
 * Exercise `03-double-handle-transcribe-command.js`
 * What is different about this exercise?  (Double calling the handler)
 * Could this ever happen?  (Crash. Redeployment. Restart.)
