@@ -34,6 +34,7 @@ Go through the slides up until "Let's Build It!"
 `git checkout step-02`
 
 1. Lots of dependency injection
+2. SLIDES - Showing how it works from `src/index.js`
 2. All wired together in `src/config.js`.  Be sure to peek into this file.
 
 ## Step 3: Handling Our First Message (the `Transcribe` command)
@@ -41,8 +42,9 @@ Go through the slides up until "Let's Build It!"
 `git checkout step-03`
 
 * Exercise `02-handle-transcribe-command.js`
-* Show src/transcribe-component/index.js - we’re receiving the message store now
+* Run `node exercises/02-handle-transcribe-command.js`
 * Show src/config.js - We’re passing the message store now
+* Show src/transcribe-component/index.js - we’re receiving the message store now
 * Back to src/transcribe-component/index.js - Show the `transcodeVideo` function
 * Show that the handler key name matches the message type we’re handling
 * Live code the solution
