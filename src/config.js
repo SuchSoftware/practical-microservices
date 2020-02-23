@@ -3,8 +3,10 @@
 // the breath of life into the otherwise hollow shell of the rest of the
 // system.
 
+const createHomeApplication = require('./home-application')
 const createPostgresClient = require('./postgres-client')
 const createMessageStore = require('./message-store')
+const createTranscribeComponent = require('./transcribe-component')
 
 // Even the configuration has a dependency, namely the run-time environment.
 function createConfig ({ env }) {
@@ -17,9 +19,23 @@ function createConfig ({ env }) {
   // Postgres™.
   const messageStore = createMessageStore({ db: postgresClient })
 
+  // Applications
+  const homeApplication = createHomeApplication()
+
+  // Components
+  const transcribeComponent = createTranscribeComponent()
+
+  // Aggregators
+  // When we get aggregators, they'll go here
+
+  const consumers = [transcribeComponent]
+
   return {
+    consumers,
     env,
-    messageStore
+    homeApplication,
+    messageStore,
+    transcribeComponent
   }
 }
 

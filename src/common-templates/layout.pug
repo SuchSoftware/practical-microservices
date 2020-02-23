@@ -1,0 +1,25 @@
+doctype html
+head
+  title YooToob
+
+  link(href="/css/fonts.css" rel="stylesheet")
+  link(href="/css/bootstrap.min.css" rel="stylesheet")
+
+body
+  nav.navbar.navbar-expand-lg.navbar-light.bg-light
+    a.navbar-brand(href='/') YooToob
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    .collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          a.nav-link(href='/') Home
+
+  .container
+    div(style="margin-top: 30px")
+      block content
+
+  script(src="/js/jquery-3.2.1.slim.min.js")
+  script(src="/js/popper.min.js")
+  script(src="/js/bootstrap.bundle.min.js")
+  block behavior

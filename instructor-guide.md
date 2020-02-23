@@ -34,7 +34,7 @@ Go through the slides up until "Let's Build It!"
 `git checkout step-02`
 
 1. Lots of dependency injection
-2. All wired together in `src/config.js`
+2. All wired together in `src/config.js`.  Be sure to peek into this file.
 
 ## Step 3: Handling Our First Message (the `Transcribe` command)
 
