@@ -13,12 +13,35 @@ function transcribeVideo (uri) {
 // one of the messages communicated over pub/sub.
 //
 // Fleshing out these handlers is the main activity of the workshop.
-function createHandlers () {
-  return {}
+function createHandlers ({ messageStore }) {
+  return {
+    Transcribe (transcribe) {
+      const { transcribeId, uri } = transcribe.data
+      const transcription = transcribeVideo(uri)
+
+      const transcribed = {
+        id: uuid(),
+        type: 'Transcribed',
+        metadata: {
+          traceId: transcribe.metadata.traceId,
+          originStreamName: transcribe.metadata.originStreamName
+        },
+        data: {
+          transcribeId,
+          uri,
+          transcription
+        }
+      }
+      const streamName = `transcribe-${transcribeId}`
+
+      return messageStore.write(streamName, transcribed)
+    }
+  }
 }
 
 // This top-level function will receive dependencies in future steps
 function build ({ messageStore }) {
+  const handlers = createHandlers({ messageStore })
   // Components get new messages to process by polling the message store.
   // We decouple actually starting the component from the rest of its
   // definition.  Naturally, starting the polling cycle in test would proveo
@@ -31,6 +54,7 @@ function build ({ messageStore }) {
   }
 
   return {
+    handlers,
     start
   }
 }
