@@ -350,10 +350,44 @@ function createEventHandlers ({ messageStore }) {
 
 `git checkout step-11`
 
-* Exercise `exercises/08-handle-transcoded-event-from-us.js`
+* Exercise `exercises/09-handle-transcoded-event-caused-by-catalog.js`
 * The catalog component will drive the process off of its own events.  It shouldn’t rely on other streams for its own state
 * Idempotently copy the Transcoded event to the catalog stream
 * Talk about how we get the `catalog` stream from the `metadata` on an event in a `transcode` stream.
+* Call out `originStreamName` in subscription
+
+```
+function createTranscodeEventHandlers ({ messageStore }) {
+  return {
+    async Transcoded (transcoded) {
+      const streamName = transcoded.metadata.originStreamName
+      const video = await messageStore.fetch(streamName, projection)
+
+      if (video.isTranscoded) {
+        console.log(`(${transcoded.id}) Video already transcoded. Skipping`)
+
+        return true
+      }
+
+      const videoTranscoded = {
+        id: uuid(),
+        type: 'Transcoded',
+        metadata: {
+          traceId: transcoded.metadata.traceId
+        },
+        data: {
+          videoId: video.id,
+          transcodeId: transcoded.data.transcodeId,
+          uri: transcoded.data.uri,
+          transcodedUri: transcoded.data.transcodedUri
+        }
+      }
+
+      return messageStore.write(streamName, videoTranscoded)
+    }
+  }
+}
+```
 
 ## Step 12: Handling Our Own Transcoded Event
 
