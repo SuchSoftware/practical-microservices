@@ -87,16 +87,16 @@ function createHandlers ({ messageStore }) {
         id: uuid(),
         type: 'Transcribed',
         metadata: {
-          traceId: move.metadata.traceId,
-          originStreamName: move.metadata.originStreamName
+          traceId: transcribe.metadata.traceId,
+          originStreamName: transcribe.metadata.originStreamName
         },
         data: {
-          transcribeId: videoId,
+          transcribeId,
           uri,
           transcription
         }
       }
-      const streamName = `transcription-${videoId}`
+      const streamName = `transcribe-${videoId}`
 
       return messageStore.write(streamName, transcribed)
     }
