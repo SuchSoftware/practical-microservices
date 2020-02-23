@@ -393,7 +393,7 @@ function createTranscodeEventHandlers ({ messageStore }) {
 
 `git checkout step-12`
 
-* Exercise `exercises/09-handle-transcoded-event-in-catalog-stream.js`
+* Exercise `exercises/10-handle-transcoded-event-in-catalog-stream.js`
 * The handler function for this has not been scaffolded
     * Where will we put the handler?
     * What is a handler?
