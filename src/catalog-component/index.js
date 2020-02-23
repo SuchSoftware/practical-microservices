@@ -10,19 +10,29 @@ const projection = require('./projection')
 function createCommandHandlers ({ messageStore }) {
   return {
     async Catalog (catalog) {
-      // TODO
-      // Handle the catalog command
-      // We want to drive the process from events in `catalog` streams.
-      // So, copy the command into a `Started` event in our entity stream.
+      const videoId = catalog.data.videoId
+      const videoStreamName = `catalog-${videoId}`
+      const video = await messageStore.fetch(videoStreamName, projection)
 
-      // 1. Fetch the video entity from the message store
+      if (video.isStarted) {
+        console.log(`(${catalog.id}) Video already started. Skipping`)
 
-      // 2. Make the handler idempotent by checking to see if the video has
-      // already been started.
+        return true
+      }
 
-      // 3. If we haven't, then write a `Started` event
+      const started = {
+        id: uuid(),
+        type: 'Started',
+        metadata: {
+          traceId: catalog.metadata.traceId
+        },
+        data: {
+          videoId: catalog.data.videoId,
+          uri: catalog.data.uri
+        }
+      }
 
-      return Promise.resolve(true)
+      return messageStore.write(videoStreamName, started)
     }
   }
 }
