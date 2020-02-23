@@ -96,7 +96,7 @@ function createHandlers ({ messageStore }) {
           transcription
         }
       }
-      const streamName = `transcribe-${videoId}`
+      const streamName = `transcribe-${transcribeId}`
 
       return messageStore.write(streamName, transcribed)
     }
