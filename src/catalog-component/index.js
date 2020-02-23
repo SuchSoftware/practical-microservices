@@ -67,12 +67,33 @@ function createEventHandlers ({ messageStore }) {
       const commandStream = `transcode:command-${transcodeId}`
 
       return messageStore.write(commandStream, transcode)
-    }
+    },
 
-    // TODO: Add a handler here for `Transcoded` events that are in `catalog`
-    // streams.  Reminder that a handler is a property on this object whose
-    // key matches a message type and whose value is a function that receives
-    // a message of that type to handle.  The function should be `async`.
+    async Transcoded (transcoded) {
+      const streamName = transcoded.streamName
+      const video = await messageStore.fetch(streamName, projection)
+
+      if (video.isTranscribed) {
+        console.log(`(${transcoded.id}) Video already transcribed. Skipping`)
+
+        return true
+      }
+
+      const transcribe = {
+        id: uuid(),
+        type: 'Transcribe',
+        metadata: {
+          traceId: transcoded.metadata.traceId,
+          originStreamName: streamName
+        },
+        data: {
+          videoId: video.id,
+          uri: video.uri
+        }
+      }
+
+      return messageStore.write(`transcribe:command-${video.id}`, transcribe)
+    }
   }
 }
 
