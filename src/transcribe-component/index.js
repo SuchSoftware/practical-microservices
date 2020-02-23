@@ -8,7 +8,7 @@ function createHandlers () {
 }
 
 // This top-level function will receive dependencies in future steps
-function createComponent () {
+function build () {
   // Components get new messages to process by polling the message store.
   // We decouple actually starting the component from the rest of its
   // definition.  Naturally, starting the polling cycle in test would proveo
@@ -25,4 +25,4 @@ function createComponent () {
   }
 }
 
-module.exports = createComponent
+module.exports = build
