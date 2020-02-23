@@ -46,12 +46,41 @@ Go through the slides up until "Let's Build It!"
 * Show src/config.js - We’re passing the message store now
 * Show src/transcribe-component/index.js - we’re receiving the message store now
 * Back to src/transcribe-component/index.js - Show the `transcodeVideo` function
+* Running the exercise gave the error `TypeError: Cannot read property 'Transcribe' of undefined`
+* The code in the exercse was:
+
+```
+config.transcribeComponent.handlers
+  .Transcribe(transcribe)
+```
+* We need something callend `handlers` on the transcribe component with a function named `Transcribe`
+* Instantiate `handlers`, passing `messageStore` and have `createHandlers` receive `messageStore`:
+
+```
+function createHandlers ({ messageStore }) {
+  return {}
+}
+
+function build ({ messageStore }) {
+  const handlers = createHandlers({ messageStore })
+  
+  // ...
+  
+  return {
+    handlers,
+    start
+  }
+}
+```
+
 * Show that the handler key name matches the message type we’re handling
 * Live code the solution
 
 ```
+function createHandlers ({ messageStore }) {
+  return {
     Transcribe (transcribe) {
-      const { videoId, uri } = transcribe.data
+      const { transcribeId, uri } = transcribe.data
       const transcription = transcribeVideo(uri)
 
       const transcribed = {
@@ -62,7 +91,8 @@ Go through the slides up until "Let's Build It!"
           originStreamName: move.metadata.originStreamName
         },
         data: {
-          videoId,
+          transcribeId: videoId,
+          uri,
           transcription
         }
       }
@@ -70,6 +100,8 @@ Go through the slides up until "Let's Build It!"
 
       return messageStore.write(streamName, transcribed)
     }
+  }
+}
 ```
 
 ## Step 4: Recycling Messages

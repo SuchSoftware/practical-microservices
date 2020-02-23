@@ -1,3 +1,5 @@
+const uuid = require('uuid/v4')
+
 // Function for faking the transcription
 function transcribeVideo (uri) {
   return `
