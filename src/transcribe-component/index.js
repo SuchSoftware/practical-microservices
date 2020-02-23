@@ -19,13 +19,13 @@ function createHandlers ({ messageStore }) {
   return {
     async Transcribe (transcribe) {
       const { transcribeId, uri } = transcribe.data
-      const streamName = `transcription-${transcribeId}`
+      const streamName = `transcribe-${transcribeId}`
       const transcription = await messageStore.fetch(streamName, projection)
 
       // TODO: Check to see if we've already performed the transcription.
       // `transcription` has an `isTranscoded` property.  Change this check
       // from `false` to use the projected transcription.
-      if (false) {
+      if (transcription.isTranscribed) {
         console.log(`[${transcribe.id}]: Already transcribed. Skipping.`)
 
         return true
