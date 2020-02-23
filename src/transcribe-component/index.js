@@ -15,7 +15,7 @@ function transcribeVideo (uri) {
 // Fleshing out these handlers is the main activity of the workshop.
 function createHandlers ({ messageStore }) {
   return {
-    Transcribe (transcribe) {
+    async Transcribe (transcribe) {
       const { transcribeId, uri } = transcribe.data
       const transcription = transcribeVideo(uri)
 
