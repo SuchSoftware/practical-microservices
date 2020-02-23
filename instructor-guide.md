@@ -125,18 +125,19 @@ function createHandlers ({ messageStore }) {
 * Let’s fill out the projection
 * Projections use keys that match the message types as well.  What message type do I need?
 
-    ```
-    const projection = {
-      $init: () => ({ id: null, isTranscribed: false }),
+```
+module.exports = {
+  $init: () => ({ id: null, isTranscribed: false }),
+  Transcribed (transcribeJob, transcribed) {
+    transcribeJob.id = transcribed.data.transcribeId
+    transcribeJob.isTranscribed = true
+    transcribeJob.uri = transcribed.data.uri
+    transcribeJob.transcription = transcribed.data.transcription
 
-      Transcribed (transcription, transcribed) {
-        transcription.isTranscribed = true
-
-        return transcription
-      }
-    }
-
-    ```
+    return transcribeJob
+  }
+}
+```
 
 ## Step 6: Adding the Projection to the Handler
 
