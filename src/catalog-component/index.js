@@ -74,21 +74,30 @@ function createEventHandlers ({ messageStore }) {
 function createTranscodeEventHandlers ({ messageStore }) {
   return {
     async Transcoded (transcoded) {
-      // TODO 1. Fetch the entity and make the handler idempotent
-      //   - The`transcoded` event that we get here was written to a
-      //     `transcode` stream and not to a `catalog` stream.
-      //   - Where can we find the streamName for the video entity?
-      //   - Look at exercises/08-handle-transcoded-event-caused-by-catalog.js
-      //     for inspiration.  Look at the event we build there.
-      const streamName = 'where do I get the `catalog` stream name?'
+      const streamName = transcoded.metadata.originStreamName
+      const video = await messageStore.fetch(streamName, projection)
 
-      // TODO: 2. Make the handle idempotent.  What property on the video
-      // entity tells us if the video has been transcoded?
+      if (video.isTranscoded) {
+        console.log(`(${transcoded.id}) Video already transcoded. Skipping`)
 
-      // TODO: 3. Write a Transcoded event to our `catalog` stream to drive
-      // the process forward.
+        return true
+      }
 
-      return true
+      const videoTranscoded = {
+        id: uuid(),
+        type: 'Transcoded',
+        metadata: {
+          traceId: transcoded.metadata.traceId
+        },
+        data: {
+          videoId: video.id,
+          transcodeId: transcoded.data.transcodeId,
+          uri: transcoded.data.uri,
+          transcodedUri: transcoded.data.transcodedUri
+        }
+      }
+
+      return messageStore.write(streamName, videoTranscoded)
     }
   }
 }
