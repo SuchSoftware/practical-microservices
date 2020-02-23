@@ -93,6 +93,30 @@ function createEventHandlers ({ messageStore }) {
       }
 
       return messageStore.write(`transcribe:command-${video.id}`, transcribe)
+    },
+
+    async Transcribed (transcribed) {
+      const streamName = transcribed.streamName
+      const video = await messageStore.fetch(streamName, projection)
+
+      if (video.isCataloged) {
+        console.log(`(${transcribed.id}) Video already cataloged. Skipping`)
+
+        return true
+      }
+
+      const cataloged = {
+        id: uuid(),
+        type: 'Cataloged',
+        metadata: {
+          traceId: transcribed.metadata.traceId
+        },
+        data: {
+          videoId: video.id
+        }
+      }
+
+      return messageStore.write(streamName, cataloged)
     }
   }
 }
@@ -128,10 +152,44 @@ function createTranscodeEventHandlers ({ messageStore }) {
   }
 }
 
+function createTranscribeEventHandlers ({ messageStore }) {
+  return {
+    async Transcribed (transcribed) {
+      const streamName = transcribed.metadata.originStreamName
+      const video = await messageStore.fetch(streamName, projection)
+
+      if (video.isTranscribed) {
+        console.log(`(${transcribed.id}) Video already transcribed. Skipping`)
+
+        return true
+      }
+
+      const videoTranscribed = {
+        id: uuid(),
+        type: 'Transcribed',
+        metadata: {
+          traceId: transcribed.metadata.traceId
+        },
+        data: {
+          videoId: video.id,
+          transcribeId: transcribed.data.transcribeId,
+          uri: transcribed.data.uri,
+          transcription: transcribed.data.transcription
+        }
+      }
+
+      return messageStore.write(streamName, videoTranscribed)
+    }
+  }
+}
+
 function createComponent ({ messageStore }) {
   const commandHandlers = createCommandHandlers({ messageStore })
   const eventHandlers = createEventHandlers({ messageStore })
   const transcodeEventHandlers = createTranscodeEventHandlers({ messageStore })
+  const transcribeEventHandlers = createTranscribeEventHandlers({
+    messageStore
+  })
 
   const commandSubscription = messageStore.createSubscription({
     streamName: 'catalog:command',
@@ -152,6 +210,13 @@ function createComponent ({ messageStore }) {
     subscriberId: 'catalogTranscodeEventConsumer'
   })
 
+  const transcribeEventSubscription = messageStore.createSubscription({
+    streamName: 'transcribe',
+    handlers: transcribeEventHandlers,
+    originStreamName: 'catalog',
+    subscriberId: 'catalogTranscribeEventConsumer'
+  })
+
   function start () {
     console.log('Starting video catalog component')
 
@@ -164,7 +229,8 @@ function createComponent ({ messageStore }) {
     commandHandlers,
     eventHandlers,
     start,
-    transcodeEventHandlers
+    transcodeEventHandlers,
+    transcribeEventHandlers
   }
 }
 

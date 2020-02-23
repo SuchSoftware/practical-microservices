@@ -440,33 +440,19 @@ function createEventHandlers ({ messageStore }) {
 
 * No exercise
 * We're not doing anything new, so we're not doing this as an exercise
-* But do it as a verbal exercise
-    * Look in src/catalog-component/index.js.  Where would the Transcription handlers go?
-    * It's the same template as what we did for Transcoded
-    * And then we also handle
+* Show the code - It's the same template as what we did for Transcoded
 * Then we also handle `catalog`'s `Transcribed` event to write a `Cataloged` event
 
+## Step 14: Touring the application changes
 
-## Step 14: Subscribing to the Message Store
-
-`git checkout step-14`
-
-* No exercise
-* We're not coding this as a group because how to write the subscription is particular to the code in this workshop.  It isn't going to teach you more about microservices.
-* Do call out the `originStreamName` passed into the subscription for the `transcode` and `transcribe` handlers.
-* The streamName is the category we’re subscribing to.  To handle commands, we subscribe to the :command stream
-
-
-## Step 15: Touring the application changes
-
-`git checkout step-015`
+`git checkout step-014`
 
 * Keeping it simple.  Anyone can upload a video.  Can’t foresee any problem with that!
 * Videos are named after their id.  Can’t foresee any problems with that!
-Notice that the Application’s job here is to just get the command to the message store
-That’s all it has available at the moment
-That’s why the view video route has the interstitial
-Notice that the reads are now just like any other HTTP handler you’ve work with before.  What we’ve done is decouple our write model from our read model
+* Notice that the Application’s job here is to just get the command to the message store
+* That’s all it has available at the moment
+* That’s why the view video route has the interstitial
+* Notice that the reads are now just like any other HTTP handler you’ve work with before.  What we’ve done is decouple our write model from our read model
 
 
 ## Step 16: Aggregating the results into View Data
