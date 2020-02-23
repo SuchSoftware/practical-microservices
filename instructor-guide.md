@@ -203,9 +203,62 @@ function build ({ messageStore }) {
 * Fill out the projection in `src/transcode-component/projection.js`
 
 ```
+module.exports = {
+  $init: () => ({
+    id: null,
+    uri: null,
+    transcodedUri: null,
+    isTranscoded: false
+  }),
+
+  Transcoded (transcoding, transcoded) {
+    transcoding.id = transcoded.data.transcodeId
+    transcoding.uri = transcoded.data.uri
+    transcoding.transcodedUri = transcoded.data.transcodedUri
+    transcoding.isTranscoded = true
+
+    return transcoding
+  }
+}
 ```
 
-* Given a projection with an `$init` property and a component file with the handler somewhat filled out.  Walk them through what they have to work with.
+* Fill out the handler in `src/transcode-component/index.js`
+
+```
+function createHandlers ({ messageStore }) {
+  return {
+    async Transcode (transcode) {
+      const transcodeId = transcode.data.transcodeId
+      const streamName = `transcode-${transcodeId}`
+      const transcoding = await messageStore.fetch(streamName, projection)
+
+      if (transcoding.isTranscoded) {
+        console.log(`(${transcodeId}): Already transcoded. Skipping.`)
+
+        return true
+      }
+
+      const transcodedUri = transcodeFile(transcode.data.uri)
+
+      const transcoded = {
+        id: uuid(),
+        type: 'Transcoded',
+        metadata: {
+          traceId: transcode.metadata.traceId,
+          originStreamName: transcode.metadata.originStreamName
+        },
+        data: {
+          transcodeId,
+          uri: transcode.data.uri,
+          transcodedUri
+        }
+      }
+
+      return messageStore.write(streamName, transcoded)
+    }
+  }
+}
+```
 
 ## Step 9: Starting a Long-Running Process
 
