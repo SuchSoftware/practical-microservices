@@ -25,7 +25,7 @@ function createHandlers ({ messageStore }) {
       // TODO: Check to see if we've already performed the transcription.
       // `transcription` has an `isTranscoded` property.  Change this check
       // from `false` to use the projected transcription.
-      if (transcription.isTranscribed) {
+      if (false) {
         console.log(`[${transcribe.id}]: Already transcribed. Skipping.`)
 
         return true
