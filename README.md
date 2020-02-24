@@ -61,7 +61,7 @@ Password: <It's blank.  As in literally blank.  Don't put all of this in there.>
 User: postgres
 Host/Socket: 127.0.0.1
 Port: 5433
-Database: practical_microservices
+Database: message_store
 Password: <It's blank.  As in literally blank.  Don't put all of this in there.>
 ```
 
