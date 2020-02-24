@@ -326,6 +326,8 @@ function createEventHandlers ({ messageStore }) {
         return true
       }
 
+      const transcodeId = uuid()
+
       const transcode = {
         id: uuid(),
         type: 'Transcode',
@@ -334,11 +336,11 @@ function createEventHandlers ({ messageStore }) {
           originStreamName: streamName
         },
         data: {
-          videoId,
+          transcodeId,
           uri: started.data.uri
         }
       }
-      const commandStream = `transcode:command-${videoId}`
+      const commandStream = `transcode:command-${transcodeId}`
 
       return messageStore.write(commandStream, transcode)
     }
