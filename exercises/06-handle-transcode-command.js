@@ -14,4 +14,5 @@ config.transcodeComponent.handlers
   // Notice the double handling again
   .then(() => config.transcodeComponent.handlers.Transcode(transcode))
   .then(() => console.log('Transcoded.'))
+  .catch(err => console.log(err))
   .finally(config.messageStore.stop)
