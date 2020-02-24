@@ -87,7 +87,7 @@ function createEventHandlers ({ messageStore }) {
           originStreamName: streamName
         },
         data: {
-          videoId: video.id,
+          transcodeId: uuid(),
           uri: video.uri
         }
       }
