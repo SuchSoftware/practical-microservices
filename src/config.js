@@ -10,6 +10,7 @@ const createPostgresClient = require('./postgres-client')
 const createMessageStore = require('./message-store')
 const createTranscodeComponent = require('./transcode-component')
 const createTranscribeComponent = require('./transcribe-component')
+const createVideoListAggregator = require('./video-list-aggregator')
 
 // Even the configuration has a dependency, namely the run-time environment.
 function createConfig ({ env }) {
@@ -38,9 +39,17 @@ function createConfig ({ env }) {
   const transcribeComponent = createTranscribeComponent({ messageStore })
 
   // Aggregators
-  // When we get aggregators, they'll go here
+  const videoListAggregator = createVideoListAggregator({
+    db: knexClient,
+    messageStore
+  })
 
-  const consumers = [catalogComponent, transcodeComponent, transcribeComponent]
+  const consumers = [
+    catalogComponent,
+    transcodeComponent,
+    transcribeComponent,
+    videoListAggregator
+  ]
 
   return {
     catalogComponent,
@@ -49,7 +58,8 @@ function createConfig ({ env }) {
     homeApplication,
     messageStore,
     transcodeComponent,
-    transcribeComponent
+    transcribeComponent,
+    videoListAggregator
   }
 }
 

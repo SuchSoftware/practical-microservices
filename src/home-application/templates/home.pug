@@ -13,7 +13,6 @@ block content
             tr
               th Name
               th Preview
-              th "View"
           tbody
             each video in videos
               - const embedUri = `https://www.youtube.com/embed/${video.uri.split('=')[1]}`
@@ -21,9 +20,6 @@ block content
                 td: a(href=`/videos/${video.id}`)= video.name
                 td
                   iframe(src=embedUri frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
-                td
-                  form(action=`/videos/${video.id}/view`, method='POST')
-                    button.btn.btn-info(type='submit') View
 
     .col-md-3
       .bs-component
