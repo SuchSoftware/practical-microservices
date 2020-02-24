@@ -7,5 +7,5 @@ module.exports = {
   })
 
   // TODO: Add handlers for any event types that affect this projection.
-  // In our present case, that's just the "Moved" event
+  // In our present case, that's just the "Transcribed" event
 }
