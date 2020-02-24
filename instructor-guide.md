@@ -415,6 +415,8 @@ function createEventHandlers ({ messageStore }) {
         return true
       }
 
+      const transcribeId = uuid()
+
       // ourselves
       const transcribe = {
         id: uuid(),
@@ -424,12 +426,13 @@ function createEventHandlers ({ messageStore }) {
           originStreamName: streamName
         },
         data: {
-          videoId: video.id,
+          transcribeId,
           uri: video.uri
         }
       }
+      const commandStreamName = `transcribe:command-${transcribeId}`
 
-      return messageStore.write(`transcribe:command-${video.id}`, transcribe)
+      return messageStore.write(commandStreamName, transcribe)
     }
   }
 }
