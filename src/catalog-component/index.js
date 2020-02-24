@@ -223,6 +223,7 @@ function createComponent ({ messageStore }) {
     commandSubscription.start()
     eventSubscription.start()
     transcodeEventSubscription.start()
+    transcribeEventSubscription.start()
   }
 
   return {
