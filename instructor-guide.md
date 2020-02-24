@@ -433,7 +433,6 @@ function createEventHandlers ({ messageStore }) {
 }
 ```
 
-
 ## Step 13: Doing the Same Thing For Transcription
 
 `git checkout step-13`
@@ -453,11 +452,17 @@ function createEventHandlers ({ messageStore }) {
 * That’s all it has available at the moment
 * That’s why the view video route has the interstitial
 * Notice that the reads are now just like any other HTTP handler you’ve work with before.  What we’ve done is decouple our write model from our read model
+* Database migrations in `migrations` folder
+* Wipe the databases (docker-compose rm -sf)
+* Fire up the databases (docker-compose up)
+* Start the server (npm start)
+* Run the exercise (node exercises/13-whole-process.js)
+* Inspect the message store
 
 
-## Step 16: Aggregating the results into View Data
+## Step 15: Aggregating the results into View Data
 
-`git checkout step-016`
+`git checkout step-015`
 
 * It’s just a component, but we call them out as aggregators to make the distinction
 * The query needs to be idempotent.  Upserting gives us that.

@@ -1,0 +1,10 @@
+extends ../../common-templates/layout
+
+block content
+  h1= video.id
+
+  - const embedUri = `https://www.youtube.com/embed/${video.uri.split('=')[1]}`
+  iframe(src=embedUri width="560" height="349" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+
+  form(action=`/videos/${video.id}/view`, method='POST')
+    button.btn.btn-info(type='submit') View

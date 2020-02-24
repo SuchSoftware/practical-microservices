@@ -1,6 +1,37 @@
 extends ../../common-templates/layout
 
 block content
-  h1 This is the home page
+  .row
+    .col-md-9
+      h1 All Videos
 
-  p If you couldn't tell, this page is under construction.
+      if videos.length === 0
+        p No videos.  Upload one!
+      else
+        table.table.table-striped
+          thead
+            tr
+              th Name
+              th Preview
+              th "View"
+          tbody
+            each video in videos
+              - const embedUri = `https://www.youtube.com/embed/${video.uri.split('=')[1]}`
+              tr
+                td: a(href=`/videos/${video.id}`)= video.name
+                td
+                  iframe(src=embedUri frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen)
+                td
+                  form(action=`/videos/${video.id}/view`, method='POST')
+                    button.btn.btn-info(type='submit') View
+
+    .col-md-3
+      .bs-component
+        .card.text-white.bg-primary.mb-3
+          .card-header Upload a video
+          .card-body
+            form(action='/videos', method='POST')
+              .form-group
+                label(for='file') File
+                input.form-control-file(type='file', name='file')
+              button.btn.btn-info(type='submit') Upload
